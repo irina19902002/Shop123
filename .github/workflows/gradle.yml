@@ -31,40 +31,25 @@ env:
   ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
   ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
   ALLURE_RESULTS: "build/allure-results"
-  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
 
 
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - uses: Xotabu4/selenoid-github-action@v2
-      - run: ./gradlew clean test
-      - name: Copy History
-        uses: actions/checkout@v2
-        if: always()
-        with:
-          ref: gh-pages
-          path: gh-pages
-      - name: Build Report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: build/allure-results
-          allure_history: allure-history
-          keep_reports: 20
-      - name: Publish Report
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+     - uses: actions/checkout@v3
+     - uses: actions/setup-java@v3
+       with:
+        distribution: 'zulu'
+        java-version: '17'
+     - name: Make gradlew executable
+       run: chmod +x ./gradlew
+     - name: Start selenoid
+       uses: Xotabu4/selenoid-github-action@v2
+     - name: Build with Gradle
+       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+       with:
+        arguments: build
