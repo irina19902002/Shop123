@@ -6,7 +6,7 @@ public class WebTest {
     @BeforeAll
     static void setUp() {
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-       Configuration.remote = "http://localhost:4444/wd/hub";
+       ///Configuration.remote = "http://localhost:4444/wd/hub";
             Configuration.browser = "Chrome";
     }
 }
