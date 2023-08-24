@@ -58,7 +58,7 @@ jobs:
        run: ./gradlew bootBuildImage --imageName=$IMAGE_NAME
      - name: Tag & publish to GitHub Container Registry
        run: |
-        IMAGE_ID=ghcr.io/${{ https://github.com/irina19902002/Shop_Itog }}/$IMAGE_NAME
+        IMAGE_ID=ghcr.io/${{https://github.com/irina19902002/Shop_Itog}}/$IMAGE_NAME
         VERSION=latest
         docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
